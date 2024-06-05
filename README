@@ -1,0 +1,19 @@
+== README ==
+
+turing-emu is a simple emulator for turing machines. It provides facilities
+for executing machines on tapes and for debugging machines.
+
+For documentation on how to use turing-emu, please consult manual.txt.
+
+For the turing-emu license (GPL version 2) please consult LICENSE.
+
+For information on licenses of dependencies (NOT licenses of turing-emu)
+please consult lib-license-reference.txt
+
+= Build from source with Cabal =
+
+Invoke `cabal build` in the directory which contains turing-emu.cabal.
+
+= Install from source with Cabal =
+
+Invole `cabal install` in the directory which contains turing-emu.cabal.

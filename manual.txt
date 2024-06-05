@@ -1,0 +1,108 @@
+== turing-emu ==
+
+turing-emu is a simple emulator for turing machines. It provides facilities
+for executing machines on tapes and for debugging machines.
+
+The turing machines which turing-emu deals with have the following properties:
+
+    - A state is either HALT or q<name>. The name of a non-halt state is an
+        alphanumeric string.
+    - A symbol is either a blank symbol or a Unicode character symbol.
+    - Move instructions: left, neutral, and right.
+    - Failing to find a matching instruction for the current state and
+        current tape head symbol is a runtime error for the machine.
+
+turing-emu takes two mandatory filename arguments: the INSTRUCTIONS file,
+and the INPUT_TAPE file.
+
+= Normal mode =
+
+The default mode. Gets the final state and output tape of the machine,
+and writes them to:
+
+    - A file on disk.
+        - Default filename is output_tape.txt.
+        - Specify a filename with --output or -o
+    - Or, standard output. Request this with --stdin or -s
+
+By default, 10 symbols to the left of the tape head and 10 symbols to the
+right of the tape head will be output. Specify different numbers with
+--ldist (or -l) and --rdist (or -r)
+
+= Interactive debug mode =
+
+Debug mode is requested with --debug or -d. Most other options are not
+compatible with debug mode.
+
+In debug mode, the arrow keys are used for navigation.
+
+    - Up arrow: step backwards in the computation.
+    - Down arrow: step forwards in the computation.
+    - Left arrow: scroll left through the tape.
+    - Right arrow: scroll right through the tape.
+
+= Runtime turing machine errors =
+
+In normal mode, any error which the turing machine encounters during
+its runtime is written along with the final state and the output tape.
+
+In debug mode, any such error will be at the "bottom" stage of the computation.
+
+= INSTRUCTIONS file format =
+
+A file containing a number of instructions, each terminated with a semicolon.
+
+Each instructions has five parts, separated by commas:
+<initial state>, <initial symbol>, <new symbol>, <direction>, <new state>
+
+A state is either HALT or a normal state. A normal state is written
+q<name>, where name is a string of letters and/or numbers
+
+A symbol is either b (for blank) or a character-symbol. A character-symbol
+is written as a character literal enclosed in single quotes.
+
+A direction is L (for left), N (for neutral/no-move), or R (for right).
+
+= INSTRUCTIONS example =
+
+q0,      b,  'a',  R, q1;
+q1,     'x', 'y',  N, qhello;
+qhello, 'h', '\n', R, HALT;
+
+= INPUT_TAPE file format =
+
+A file containing:
+    a portion of the tape to the left of the head
+    the tape head
+    a portion of the tape to the right of the head
+separated by semicolons.
+
+The tape head is a single symbol, written as in an instructions file.
+
+To the left and to the right of the tape head, we can specify however
+many symbols we like, including no symbols. These lists of symbols
+are comma-separated.
+
+INPUT_TAPE is ordered left to right. All the symbols in the file form a
+contiguous section of the tape. Beyond this section, in both directions,
+is an infinite quantity of blank symbols.
+
+= INPUT_TAPE examples =
+
+'a', 'b', 'c' ; 'd' ; 'e', 'f', b
+;b;
+
+The last example is a completely blank tape.
+
+= Command line examples =
+
+turing-emu demo_inst.txt demo_input.txt -s
+turing-emu instructions.txt input_tape_4.txt -o output_tape_4.txt -l 20 -r 20
+turing-emu instructions.txt input_tape_6.txt -d
+
+== License information ==
+
+turing-emu is free software, provided under the terms of the GNU GPL, v2.
+
+turing-emu uses libraries which are licensed under the terms of the
+3-clause BSD license.
