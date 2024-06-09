@@ -17,3 +17,8 @@ Invoke `cabal build` in the directory which contains turing-emu.cabal.
 = Install from source with Cabal =
 
 Invoke `cabal install` in the directory which contains turing-emu.cabal.
+
+= Acknowledgements =
+
+Thanks to Robert Culling for the inspiration for this project.
+See https://gitlab.com/SyntakticSugar/turing
