@@ -16,4 +16,4 @@ Invoke `cabal build` in the directory which contains turing-emu.cabal.
 
 = Install from source with Cabal =
 
-Invole `cabal install` in the directory which contains turing-emu.cabal.
+Invoke `cabal install` in the directory which contains turing-emu.cabal.

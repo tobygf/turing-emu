@@ -116,6 +116,17 @@ eatMany (c:cs) = do
 
 eatMany "" = pure ()
 
+eatComment :: Parse ()
+eatComment = do
+    eat '-'
+    advanceWhile (/= '\n')
+    pure ()
+
+skipComment :: Parse ()
+skipComment = do
+    next <- peek
+    when (next == Just '-') eatComment
+
 peek :: Parse (Maybe Char)
 peek = do
     remaining <- getParseRemaining
@@ -127,7 +138,8 @@ skipWhitespace :: Parse ()
 skipWhitespace = do
     next <- peek
     case next of
-         Just c -> when (isWhitespace c) $ advance >> skipWhitespace
+         Just '\n' -> advance >> skipComment >> skipWhitespace
+         Just other -> when (isWhitespace other) $ advance >> skipWhitespace
          Nothing -> pure ()
 
 eatWithWhitespace :: Char -> Parse ()
@@ -220,6 +232,7 @@ parseInstruction = do
 
 parseInstructions :: Parse [Instruction]
 parseInstructions = do
+    skipComment
     skipWhitespace
     eof <- isParseEOF
     if eof
@@ -234,6 +247,7 @@ infinify symbols = symbols ++ repeat Blank
 
 parseTape :: Parse MachineTape
 parseTape = do
+    skipComment
     skipWhitespace
     symbolsLeft <- parseSymbols
     eatWithWhitespace ';'

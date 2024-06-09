@@ -8,7 +8,7 @@ The turing machines which turing-emu deals with have the following properties:
     - A state is either HALT or q<name>. The name of a non-halt state is an
         alphanumeric string.
     - A symbol is either a blank symbol or a Unicode character symbol.
-    - Move instructions: left, neutral, and right.
+    - Move instructions: left, neutral (no move), and right.
     - Failing to find a matching instruction for the current state and
         current tape head symbol is a runtime error for the machine.
 
@@ -63,6 +63,9 @@ is written as a character literal enclosed in single quotes.
 
 A direction is L (for left), N (for neutral/no-move), or R (for right).
 
+A line beginning with a hyphen (-) is a comment. Comments are ignored
+by the emulator.
+
 = INSTRUCTIONS example =
 
 q0,      b,  'a',  R, q1;
@@ -79,9 +82,8 @@ separated by semicolons.
 
 The tape head is a single symbol, written as in an instructions file.
 
-To the left and to the right of the tape head, we can specify however
-many symbols we like, including no symbols. These lists of symbols
-are comma-separated.
+To the left and to the right of the tape head, we can specify one or more
+symbols. These lists of symbols are comma-separated.
 
 INPUT_TAPE is ordered left to right. All the symbols in the file form a
 contiguous section of the tape. Beyond this section, in both directions,
@@ -90,7 +92,8 @@ is an infinite quantity of blank symbols.
 = INPUT_TAPE examples =
 
 'a', 'b', 'c' ; 'd' ; 'e', 'f', b
-;b;
+
+b;b;b
 
 The last example is a completely blank tape.
 
