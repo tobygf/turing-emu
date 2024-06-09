@@ -88,7 +88,7 @@ advanceMany i
         c <- advance
         rest <- advanceMany (i - 1)
         pure (c:rest)
-    | i < 0 = error "eatMany has gone haywire"
+    | i < 0 = error "advanceMany has gone haywire"
 
 advanceWhile :: (Char -> Bool) -> Parse String
 advanceWhile p = do
